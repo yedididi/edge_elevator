@@ -46,16 +46,17 @@ typedef struct s_client
 
 typedef struct s_data
 {
+    pthread_t pid;
     int *state;
     int clientfd;
-    bool wheelChair;
+    bool *wheelChair;
 } t_data;
 
 //socket
 int startSocket(struct sockaddr_in *addr_server, socklen_t *addr_len);
 
 //init
-void init();
+t_data **init();
 
 //stmThread
 void    *stmThread(void *arg);

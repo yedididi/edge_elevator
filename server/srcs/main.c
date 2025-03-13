@@ -2,26 +2,35 @@
 
 char threadName[5][20] = {"jetsonOutside", "jetsonInside", "raspberry", "arduino", "stm"};
 void *(*threadFunc[5])(void *) = {jetsonOneThread, jetsonTwoThread, raspberryThread, arduinoThread, stmThread};
-t_data *datas[5];
 
 int main(void)
 {
     int serverfd, max;
-    int next_id = 0;
     fd_set fds, wfds, rfds;
     socklen_t addr_len;
     struct sockaddr_in addr;
     char bufRead[BUFSIZE];
     t_client clients[1024];
-    int state, wheelChair;
+    int state;
+    bool wheelChair;
+    t_data **datas;
 
     serverfd = startSocket(&addr, &addr_len);
-    init();
+    datas = init();
 
     max = serverfd;
+    printf("before while, max is:%d\n", max);
+    FD_SET(serverfd, &fds);
     while (1) 
     {
         wfds = rfds = fds;
+        printf("max is:%d\n", max);
+        // if (max == 5개 전부 연결한 값)
+        // {
+        //     스레드 끝내기
+        //     할당해제
+        // }
+
 
         if (select(max + 1, &wfds, &rfds, NULL, NULL) < 0)
             continue;
@@ -33,14 +42,16 @@ int main(void)
                 int clientSock = accept(serverfd, (struct sockaddr *)&addr, &addr_len);
                 if (clientSock < 0)
                     continue;
+                printf("accepted, clientfd is %d\n", clientSock);
                 max = (clientSock > max) ? clientSock : max;
-                clients[i].clientfd = clientSock;
+                clients[clientSock].clientfd = clientSock;
                 FD_SET(clientSock, &fds);
                 break;
             }
             if (FD_ISSET(i, &wfds) && i != serverfd)
             {
                 int res = read(i, bufRead, BUFSIZE);
+                printf("res is:%d\n", res);
                 if (res <= 0)
                 {
                     FD_CLR(i, &fds);
@@ -56,7 +67,9 @@ int main(void)
                             datas[j]->state = &state;
                             datas[j]->clientfd = clients[i].clientfd;
                             datas[j]->wheelChair = &wheelChair;
-                            pthread_create(&(clients[i].pid), NULL, threadFunc[j], (void *)datas[j]);
+                            pthread_create(&(datas[j]->pid), NULL, threadFunc[j], (void *)datas[j]);
+                            FD_CLR(i, &fds);
+                            break;
                         }
                     }
                 }

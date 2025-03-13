@@ -3,7 +3,7 @@
 int startSocket(struct sockaddr_in *addr_server, socklen_t *addr_len)
 {
     int serverfd;
-    int *optval = NULL;
+    int optval = 1;
 
     serverfd = socket(AF_INET, SOCK_STREAM, 0);
 	if(serverfd == -1) {
@@ -12,7 +12,7 @@ int startSocket(struct sockaddr_in *addr_server, socklen_t *addr_len)
 	}
 
 	/* to prevent "Address already in use" error */
-	int ret = setsockopt(serverfd, SOL_SOCKET, SO_REUSEADDR, optval, sizeof(*optval));
+	int ret = setsockopt(serverfd, SOL_SOCKET, SO_REUSEADDR, &optval, sizeof(optval));
 	if(ret == -1) {
 		printf("[%d] error: %s (%d)\n", getpid(), strerror(errno), __LINE__);
 		return EXIT_FAILURE;
