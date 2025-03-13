@@ -15,5 +15,7 @@
 #include <pthread.h>
 #include <stdbool.h>
 
+#define SERVER_PORT 5000
+#define LISTEN_BACKLOG 10
 
 #endif

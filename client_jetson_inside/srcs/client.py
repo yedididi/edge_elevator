@@ -32,10 +32,7 @@ def startCapturing(clientSock):
                 results = model(frame)
                 detections = results[0].boxes.data
 
-                # 감지 여부 전송 (1: 감지됨, 0: 감지 안 됨)
-                # message = b"1" if len(detections) > 0 else b"0"
-                # clientSock.send(message)
-                # print(f"Sent: {message.decode()}")
+#{0: 'crutches', 1: 'person', 2: 'push_wheelchair', 3: 'walking_frame', 4: 'wheelchair'}
 
                 if len(detections) > 0: #감지된 객체가 있다면
                     message = "1".encode("utf-8")

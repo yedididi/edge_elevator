@@ -1,5 +1,5 @@
 CC = cc
-NAME = server
+NAME = client
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address
 INCS = incs
 SRCS = $(wildcard srcs/*.c)
