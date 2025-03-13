@@ -3,7 +3,7 @@ import cv2
 import time
 from ultralytics import YOLO
 
-IP_ADDRESS = "10.10.141.132"
+IP_ADDRESS = "10.10.141.42"
 SOCK_NUM = 5000
 
 # 소켓 연결 함수
@@ -44,13 +44,20 @@ def startCapturing(clientSock):
                 # clientSock.send(message)
                 # print(f"Sent: {message.decode()}")
 
-                if (detections & detections.class_id == 2 | detections.class_id == 4): #감지된 게 휠체어라면
-                    message = "1".encode("utf-8")
+                if len(detections) > 0:
+                    for det in detections:
+                        class_id = int(det[5])  # 클래스 ID는 6번째 열에 있음 (0부터 시작)
+                        if class_id == 2 or class_id == 4:  # 휠체어(2) 또는 다른 특정 객체(4) 감지 시
+                            message = "1".encode("utf-8")
+                            break
+                    else:
+                        message = "0".encode("utf-8")
                 else:
                     message = "0".encode("utf-8")
+
                 clientSock.send(message)
                 print(f"Sent: {message.decode()}")
-                print("message")
+
 
                 start_time = time.time()  # 타이머 리셋
 
