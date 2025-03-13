@@ -3,11 +3,14 @@ import cv2
 import time
 from ultralytics import YOLO
 
+IP_ADDRESS = "10.10.141.132"
+SOCK_NUM = 5000
+
 # 소켓 연결 함수
 def socketStart():
     try:
         clientSock = socket(AF_INET, SOCK_STREAM)
-        clientSock.connect(('10.10.141.72', 5000))
+        clientSock.connect((IP_ADDRESS, SOCK_NUM))
         print("Connection established.")
 
         clientSock.send("jetsonOutside".encode("utf-8"))
