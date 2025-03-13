@@ -14,8 +14,63 @@
 #include <sys/syscall.h>
 #include <pthread.h>
 #include <stdbool.h>
+#include <sys/select.h>
 
 #define SERVER_PORT 5000
 #define LISTEN_BACKLOG 10
+#define BUFSIZE 1024
+
+enum e_state 
+{
+    ARRIVED_DOWNSTAIRS,
+    GET_RFID,
+    BUTTON_PRESSED,
+    ELEVATOR_START,
+    
+};
+
+enum e_thread_order
+{
+    JETSON_INSIDE,
+    JETSON_OUTSIDE,
+    RASPBERRY,
+    ARDUINO,
+    STM,
+};
+
+typedef struct s_client
+{
+    pthread_t pid;
+    int clientfd;
+} t_client;
+
+typedef struct s_data
+{
+    int *state;
+    int clientfd;
+    bool wheelChair;
+} t_data;
+
+//socket
+int startSocket(struct sockaddr_in *addr_server, socklen_t *addr_len);
+
+//init
+void init();
+
+//stmThread
+void    *stmThread(void *arg);
+
+//arduinoThread
+void    *arduinoThread(void *arg);
+
+//jetsonOneThread
+void    *jetsonOneThread(void *arg);
+
+//jetsonTwoThread
+void    *jetsonTwoThread(void *arg);
+
+//raspberryThread
+void    *raspberryThread(void *arg);
+
 
 #endif

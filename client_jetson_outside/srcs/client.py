@@ -9,6 +9,10 @@ def socketStart():
         clientSock = socket(AF_INET, SOCK_STREAM)
         clientSock.connect(('10.10.141.72', 5000))
         print("Connection established.")
+
+        clientSock.send("jetsonOutside".encode("utf-8"))
+        print("jetsonOutside sent to server")
+        
         return clientSock
     except Exception as e:
         print(f"Socket connection failed: {e}")

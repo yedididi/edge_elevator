@@ -1,10 +1,9 @@
 #include "../incs/main.h"
 
-int startSocket()
+int startSocket(struct sockaddr_in *addr_server, socklen_t *addr_len)
 {
     int serverfd;
-    int *optval;
-    struct sockaddr_in *addr_server;
+    int *optval = NULL;
 
     serverfd = socket(AF_INET, SOCK_STREAM, 0);
 	if(serverfd == -1) {
@@ -19,11 +18,12 @@ int startSocket()
 		return EXIT_FAILURE;
 	}
 
+	*addr_len = sizeof(*addr_server);
 	memset(addr_server, 0, sizeof(*addr_server));
 	addr_server->sin_family = AF_INET;
 	addr_server->sin_addr.s_addr = htonl(INADDR_ANY);
 	addr_server->sin_port = htons(SERVER_PORT);
-	ret = bind(serverfd, (struct sockaddr *)addr_server, sizeof(*addr_server));
+	ret = bind(serverfd, (struct sockaddr *)addr_server, *addr_len);
 	if(ret == -1) {
 		printf("[%d] error: %s (%d)\n", getpid(), strerror(errno), __LINE__);
 		return EXIT_FAILURE;
