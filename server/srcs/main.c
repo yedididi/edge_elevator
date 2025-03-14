@@ -24,11 +24,11 @@ int main(void)
     while (1) 
     {
         wfds = rfds = fds;
-        printf("max is:%d\n", max);
         // if (max == 5개 전부 연결한 값)
         // {
         //     스레드 끝내기
         //     할당해제
+        //      메인스레드 시작
         // }
 
 
@@ -44,6 +44,7 @@ int main(void)
                     continue;
                 printf("accepted, clientfd is %d\n", clientSock);
                 max = (clientSock > max) ? clientSock : max;
+                printf("max is:%d\n", max);
                 clients[clientSock].clientfd = clientSock;
                 FD_SET(clientSock, &fds);
                 break;
