@@ -26,7 +26,8 @@ enum e_state
     GET_RFID,
     BUTTON_PRESSED,
     ELEVATOR_START,
-    
+    SPEAKER_YIELD,
+    SPEAKER_TAG_REQUIRED,
 };
 
 enum e_thread_order
