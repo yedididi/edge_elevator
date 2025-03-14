@@ -3,12 +3,19 @@ import cv2
 import time
 from ultralytics import YOLO
 
+IP_ADDRESS = "10.10.141.42"
+SOCK_NUM = 5000
+
 # 소켓 연결 함수
 def socketStart():
     try:
         clientSock = socket(AF_INET, SOCK_STREAM)
-        clientSock.connect(('10.10.141.72', 5000))
+        clientSock.connect((IP_ADDRESS, SOCK_NUM))
         print("Connection established.")
+
+        clientSock.send("jetsonInside".encode("utf-8"))
+        print("jetsonInside sent to server")
+
         return clientSock
     except Exception as e:
         print(f"Socket connection failed: {e}")
@@ -17,7 +24,7 @@ def socketStart():
 # 실시간 감지 및 서버 전송
 def startCapturing(clientSock):
     try:
-        model = YOLO('runs/detect/train/weights/best.pt')
+        model = YOLO('best.pt')
         cap = cv2.VideoCapture(0)  # 웹캠 열기
         start_time = time.time()
 
@@ -34,13 +41,19 @@ def startCapturing(clientSock):
 
 #{0: 'crutches', 1: 'person', 2: 'push_wheelchair', 3: 'walking_frame', 4: 'wheelchair'}
 
-                if len(detections) > 0: #감지된 객체가 있다면
-                    message = "1".encode("utf-8")
+                if len(detections) > 0:
+                    for det in detections:
+                        class_id = int(det[5])  # 클래스 ID는 6번째 열에 있음 (0부터 시작)
+                        if class_id == 1:  # 사람(1) 감지 시
+                            message = "1".encode("utf-8")
+                            break
+                    else:
+                        message = "0".encode("utf-8")
                 else:
                     message = "0".encode("utf-8")
+
                 clientSock.send(message)
                 print(f"Sent: {message.decode()}")
-                print("message")
 
                 start_time = time.time()  # 타이머 리셋
 

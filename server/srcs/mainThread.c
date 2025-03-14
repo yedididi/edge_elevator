@@ -1,0 +1,27 @@
+#include "../incs/main.h"
+
+void mainThread(int *state, int *wheelchair, int *people)
+{
+    while (1)
+    {
+        switch (*state)
+        {
+            case (ARRIVED_DOWNSTAIRS):
+            {
+                sleep(5);
+                *state = GET_RFID;
+            }
+
+            case (GET_RFID):
+            {
+                while (1)
+                {
+                    if (*state == BUTTON_PRESSED)
+                    {
+
+                    }
+                }
+            }
+        }
+    }
+}

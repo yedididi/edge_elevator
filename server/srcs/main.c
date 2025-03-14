@@ -12,7 +12,7 @@ int main(void)
     char bufRead[BUFSIZE];
     t_client clients[1024];
     int state;
-    bool wheelChair;
+    bool wheelChair, people;
     t_data **datas;
 
     serverfd = startSocket(&addr, &addr_len);
@@ -68,6 +68,7 @@ int main(void)
                             datas[j]->state = &state;
                             datas[j]->clientfd = clients[i].clientfd;
                             datas[j]->wheelChair = &wheelChair;
+                            datas[j]->people = &people;
                             pthread_create(&(datas[j]->pid), NULL, threadFunc[j], (void *)datas[j]);
                             FD_CLR(i, &fds);
                             break;

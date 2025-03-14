@@ -50,6 +50,7 @@ typedef struct s_data
     int *state;
     int clientfd;
     bool *wheelChair;
+    bool *people;
 } t_data;
 
 //socket

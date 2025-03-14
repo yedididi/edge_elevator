@@ -1,5 +1,7 @@
 #include "../incs/main.h"
 
+//outside
+
 void    *jetsonOneThread(void *arg)
 {
     t_data *jetsonData = (t_data *)arg;
