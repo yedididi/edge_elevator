@@ -2,6 +2,8 @@
 
 void mainThread(int *state, int *wheelchair, int *people)
 {
+    (void)wheelchair;
+    (void)people;
     while (1)
     {
         switch (*state)
@@ -18,25 +20,25 @@ void mainThread(int *state, int *wheelchair, int *people)
                 }
             }
 
-            case (GET_RFID):
-            {
-                while (1)
-                {
-                    if (*state == BUTTON_PRESSED)
-                    {
-                        if (checkInAndOut(wheelchair) == 0)
-                        {
-                            *state = SPEAKER_YIELD;
-                            break;
-                        }
-                        else
-                        {
-                            *state = ELEVATOR_START;
-                            break;
-                        }
-                    }
-                }
-            }
+            // case (GET_RFID):
+            // {
+            //     while (1)
+            //     {
+            //         if (*state == BUTTON_PRESSED)
+            //         {
+            //             if (checkInAndOut(wheelchair) == 0)
+            //             {
+            //                 *state = SPEAKER_YIELD;
+            //                 break;
+            //             }
+            //             else
+            //             {
+            //                 *state = ELEVATOR_START;
+            //                 break;
+            //             }
+            //         }
+            //     }
+            // }
         }
     }
 }
