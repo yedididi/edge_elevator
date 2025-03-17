@@ -8,8 +8,14 @@ void mainThread(int *state, int *wheelchair, int *people)
         {
             case (ARRIVED_DOWNSTAIRS):
             {
-                sleep(5);
-                *state = GET_RFID;
+                // sleep(5);
+                // *state = GET_RFID;
+                
+                while (1)
+                {
+                    if (*state == BUTTON_PRESSED)
+                        *state = ELEVATOR_START;
+                }
             }
 
             case (GET_RFID):

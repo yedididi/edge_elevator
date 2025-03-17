@@ -11,7 +11,7 @@ int main(void)
     struct sockaddr_in addr;
     char bufRead[BUFSIZE];
     t_client clients[1024];
-    int state;
+    int state = ARRIVED_DOWNSTAIRS;
     bool wheelChair, people;
     t_data **datas;
 
@@ -78,7 +78,6 @@ int main(void)
             }
         }
     }
-    
 }
 
 
