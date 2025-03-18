@@ -75,5 +75,8 @@ void    *jetsonTwoThread(void *arg);
 //raspberryThread
 void    *raspberryThread(void *arg);
 
+//mainThread
+void mainThread(int *state, bool *wheelchair, bool *people);
+
 
 #endif
