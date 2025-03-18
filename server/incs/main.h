@@ -83,4 +83,9 @@ void mainThread(int *state, int *wheelchair, int *people, char **rfidStr);
 bool checkInAndOut(int *wheelChair, int *people, char **rfidStr);
 char **split(char *string);
 
+//utils
+int getWd(char *string);
+int getWdLen(char *string);
+char **split(char *string);
+
 #endif
