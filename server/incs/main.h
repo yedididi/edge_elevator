@@ -16,9 +16,11 @@
 #include <stdbool.h>
 #include <sys/select.h>
 
-#define SERVER_PORT 5000
-#define LISTEN_BACKLOG 10
-#define BUFSIZE 1024
+#define SERVER_PORT             5000
+#define LISTEN_BACKLOG          10
+#define BUFSIZE                 1024
+#define ELAVATOR_MAX_PASSENGERS 15
+#define RFID_LENGTH             100
 
 enum e_state 
 {
@@ -50,6 +52,7 @@ typedef struct s_data
     pthread_t pid;
     int *state;
     int clientfd;
+    char **rfidStr;
     bool *wheelChair;
     bool *people;
 } t_data;
@@ -75,5 +78,9 @@ void    *jetsonTwoThread(void *arg);
 //raspberryThread
 void    *raspberryThread(void *arg);
 
+//mainThread
+void mainThread(int *state, int *wheelchair, int *people, char **rfidStr);
+bool checkInAndOut(int *wheelChair, int *people, char **rfidStr);
+char **split(char *string);
 
 #endif

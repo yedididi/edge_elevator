@@ -7,6 +7,13 @@ void    *stmThread(void *arg)
 
     while (1)
     {
+        if (*(stmData->state) == GET_RFID)
+        {
+            int ret = read(stmData->clientfd, buf, BUFSIZE);
+            buf[ret] = 0;
+            strcat(*(stmData->rfidStr), " ");
+            strcat(*(stmData->rfidStr), buf);
+        }
         if (*(stmData->state) == ELEVATOR_START)
         {
             write(stmData->clientfd, "ELEVATOR_START", 14);
