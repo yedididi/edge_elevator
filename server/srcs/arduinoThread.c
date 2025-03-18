@@ -10,7 +10,7 @@ void    *arduinoThread(void *arg)
         int ret = read(arduinoData->clientfd, buf, BUFSIZE);
         if (strncmp(buf, "BUTTON_PRESSED", ret) == 0)
         {
-            *(arduinoData->state) = BUTTON_PRESSED; 
+            *(arduinoData->state) = BUTTON_PRESSED;
         }
     }
     return (NULL);
