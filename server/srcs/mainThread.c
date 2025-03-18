@@ -1,5 +1,7 @@
 #include "../incs/main.h"
 
+//yeji branch, first goal code
+
 void mainThread(int *state, int *wheelchair, int *people)
 {
     (void)wheelchair;
