@@ -78,5 +78,10 @@ void    *raspberryThread(void *arg);
 //mainThread
 void mainThread(int *state, bool *wheelchair, bool *people);
 
+//utils
+char	**ft_split(char const *s, char c);
+
+//database
+int getDatabaseInfo(char** id);
 
 #endif
