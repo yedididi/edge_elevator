@@ -1,60 +1,80 @@
 #include "../incs/main.h"
 
-
-int getWd(char *string)
+int	wd_cnt(char const *s, char c)
 {
-    int wd = 0;
-    int i = 0;
+	int	wd;
 
-    while (1)
-    {
-        if (string[i])
-        {
-            if (string[i] == ' ')
-                wd++;
-            i++;
-        }
-        else
-            break;
-    }
-    return (wd);
+	wd = 0;
+	while (*s)
+	{
+		while ((*s == c) && *s)
+			s++;
+		if (*s)
+			wd++;
+		while ((*s != c) && *s)
+			s++;
+	}
+	return (wd);
 }
 
-int getWdLen(char *string)
+int	free_single(char **fin, char *one)
 {
-    int i = 0;
-
-    while (string[i] != ' ')
-    {
-        i++;
-    }
-    return (i);
+	if (one == 0)
+	{
+		while (*fin)
+		{
+			free(*fin);
+			fin++;
+		}
+		free(fin);
+		return (0);
+	}
+	return (1);
 }
 
-char **split(char *string)
+char	*ft_splstrdup(char **final_str, char const *s, char c)
 {
-    int index = 0;
-    char **ret;
-    int wordNum;
+	char	*return_str;
+	int		len;
 
-    wordNum = getWd(string);
-    ret = (char **)malloc(sizeof(char *) * (wordNum + 1));
-    if (ret == NULL)
-        printf("NULL error\n");
-    
-    for (int i = 0; i < wordNum; i++)
-    {
-        int wdLen = getWdLen(string[index]);
+	len = 0;
+	while ((s[len] != c) && s[len])
+		len++;
+	return_str = (char *)malloc(sizeof(char) * (len + 1));
+	if (free_single(final_str, return_str) == 0)
+		return (0);
+	len = 0;
+	while ((*s != c) && *s)
+		return_str[len++] = *s++;
+	return_str[len] = '\0';
+	return (return_str);
+}
 
-        ret[i] = (char *)malloc(sizeof(char) * (wdLen + 1));
-        if (ret[i] == NULL)
-            printf("NULL error\n");
-        
-        for (int j = 0; j < wdLen; j++)
-            ret[i][j] = string[index];
-        ret[i][wdLen] = '\0';
-        index += wdLen;
-    }
-    ret[wordNum] = NULL;
-    return (ret);
+char	**ft_split(char const *s, char c)
+{
+	char	**final_str;
+	int		how_many_wd;
+	int		i;
+
+	i = 0;
+	how_many_wd = wd_cnt(s, c) + 1;
+	final_str = (char **)malloc(sizeof(char *) * how_many_wd);
+	if (final_str == 0)
+		return (0);
+	while (*s)
+	{
+		while ((*s == c) && *s)
+			s++;
+		if (*s)
+		{
+			final_str[i] = ft_splstrdup(final_str, s, c);
+			if (final_str[i] == 0)
+				return (0);
+			i++;
+		}
+		while ((*s != c) && *s)
+			s++;
+	}
+	final_str[i] = 0;
+	return (final_str);
 }

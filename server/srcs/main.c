@@ -13,7 +13,6 @@ int main(void)
     t_client clients[1024];
     int state = ARRIVED_DOWNSTAIRS;
     bool wheelChair, people;
-    char rfidStr[ELAVATOR_MAX_PASSENGERS * RFID_LENGTH] = {0, };
     t_data **datas;
 
     serverfd = startSocket(&addr, &addr_len);
@@ -24,13 +23,16 @@ int main(void)
     FD_SET(serverfd, &fds);
     while (1) 
     {
+        // printf("inside while\n");
         wfds = rfds = fds;
-        // if (max == 5개 전부 연결한 값)
-        // {
-        //      메인스레드 시작
-        //     스레드 끝내기
-        //     할당해제
-        // }
+
+        if (max == 6)
+        {
+            // 스레드 끝내기
+            // 할당해제
+            //  메인스레드 시작
+            mainThread(&state, &wheelChair, &people);
+        }
 
 
         if (select(max + 1, &wfds, &rfds, NULL, NULL) < 0)
@@ -50,8 +52,10 @@ int main(void)
                 FD_SET(clientSock, &fds);
                 break;
             }
+
             if (FD_ISSET(i, &wfds) && i != serverfd)
             {
+                printf("before read\n");
                 int res = read(i, bufRead, BUFSIZE);
                 printf("res is:%d\n", res);
                 if (res <= 0)
@@ -66,13 +70,15 @@ int main(void)
                     {
                         if (strncmp(threadName[j], bufRead, res) == 0)
                         {
+                            printf("%s recved\n", bufRead);
                             datas[j]->state = &state;
                             datas[j]->clientfd = clients[i].clientfd;
                             datas[j]->wheelChair = &wheelChair;
                             datas[j]->people = &people;
-                            datas[j]->rfidStr = &rfidStr;
                             pthread_create(&(datas[j]->pid), NULL, threadFunc[j], (void *)datas[j]);
                             FD_CLR(i, &fds);
+                            if (max == 5)
+                                max++;
                             break;
                         }
                     }
