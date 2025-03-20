@@ -52,6 +52,7 @@ typedef struct s_data
     int clientfd;
     bool *wheelChair;
     bool *people;
+    bool *rfidData;
 } t_data;
 
 //socket
@@ -76,7 +77,8 @@ void    *jetsonTwoThread(void *arg);
 void    *raspberryThread(void *arg);
 
 //mainThread
-void mainThread(int *state, bool *wheelchair, bool *people);
+void mainThread(int *state, bool *wheelchair, bool *people, bool *rfidData);
+bool checkInAndOut(bool *wheelChair, bool *people, bool *rfidData);
 
 //utils
 char	**ft_split(char const *s, char c);

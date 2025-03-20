@@ -10,14 +10,15 @@ void    *arduinoThread(void *arg)
     printf("arduino thread starting\n");
     while (1)
     {
-        if (*(arduinoData->state) == ARRIVED_DOWNSTAIRS)
+        if (*(arduinoData->state) == GET_RFID)
         {
             int ret = read(arduinoData->clientfd, buf, BUFSIZE);
             printf("arduino:%s, %d read\n", buf, ret);
             if (strncmp(buf, "BUTTON_PRESSED", ret) == 0)
             {
                 printf("changing state to BUTTON_PRESSED\n");
-                printf("this is database info:%d\n", getDatabaseInfo(ft_split(rfids, '*')));
+                *(arduinoData->rfidData) = getDatabaseInfo(ft_split(rfids, '*'));
+                // printf("this is database info:%d\n", *(arduinoData->rfidData));
                 *(arduinoData->state) = BUTTON_PRESSED;
 
             }

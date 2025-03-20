@@ -2,7 +2,7 @@
 
 //yeji branch, first goal code
 
-void mainThread(int *state, bool *wheelchair, bool *people)
+void mainThread(int *state, bool *wheelchair, bool *people, bool *rfidData)
 {
     (void)wheelchair;
     (void)people;
@@ -14,19 +14,39 @@ void mainThread(int *state, bool *wheelchair, bool *people)
         {
             case (ARRIVED_DOWNSTAIRS):
             {
+                sleep(5);
+                *state = GET_RFID;
+                break;
+            }
+
+            case (GET_RFID):
+            {
                 while (1)
                 {
                     if (*state == BUTTON_PRESSED)
-                        *state = ELEVATOR_START;
+                    {
+                        if (checkInAndOut(wheelchair, people, rfidData))
+                        {
+                            *state = SPEAKER_YIELD;
+                            break;
+                        }
+                        else
+                        {
+                            *state = ELEVATOR_START;
+                            break;
+                        }
+                    }
                 }
+                break;
             }
         }
     }
 }
 
-bool checkInAndOut(int *wheelChair)
+bool checkInAndOut(bool *wheelChair, bool *people, bool *rfidData)
 {
-    if (*wheelChair == 1)
+    //returns 0 -> elevator start
+    if (wheelChair == 0 || (wheelChair == 1 && rfidData) )
         return (false);
     else
         return (true);
