@@ -1,6 +1,6 @@
 # Python 실행을 위한 설정
 PYTHON = python3
-SCRIPT = srcs/client.py
+SCRIPT = srcs/boxClient.py
 
 # 기본 규칙 (실행)
 all: run
