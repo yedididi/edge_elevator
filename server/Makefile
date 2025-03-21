@@ -1,6 +1,6 @@
 CC = cc
 NAME = server
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -fsanitize=address -lmysqlclient
 INCS = incs
 SRCS = $(wildcard srcs/*.c)
 OBJS = $(SRCS:.c=.o)

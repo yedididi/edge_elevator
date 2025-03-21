@@ -45,8 +45,9 @@ void mainThread(int *state, bool *wheelchair, bool *people, bool *rfidData)
 
 bool checkInAndOut(bool *wheelChair, bool *people, bool *rfidData)
 {
+    (void)people;
     //returns 0 -> elevator start
-    if (wheelChair == 0 || (wheelChair == 1 && rfidData) )
+    if (*wheelChair == 0 || (*wheelChair == 1 && *rfidData == 0) )
         return (false);
     else
         return (true);
