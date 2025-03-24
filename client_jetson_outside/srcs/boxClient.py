@@ -57,7 +57,7 @@ def startCapturing(clientSock):
                             cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
                             cv2.putText(frame, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-                            if class_id == 2:
+                            if 0 <= class_id <= 5:
                                 wheelchair_detected = True
 
                 message = "1".encode("utf-8") if wheelchair_detected else "0".encode("utf-8")
