@@ -17,12 +17,12 @@ void    *jetsonTwoThread(void *arg)
         if (strncmp(buf, "1", ret) == 0)
         {
             *(jetsonData->people) = 1;
-            printf("people detacted\n");
+            printf("people detected\n");
         }
         else
         {
             *(jetsonData->people) = 0;
-            printf("people not detacted\n");
+            printf("people not detected\n");
         }
     }
     return (NULL);
