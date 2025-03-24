@@ -28,6 +28,8 @@ enum e_state
     ELEVATOR_START,
     SPEAKER_YIELD,
     SPEAKER_TAG_REQUIRED,
+    MOTOR_ON_FOR_YIELD,
+    YIELD_MOTOR_DONE,
 };
 
 enum e_thread_order
@@ -45,6 +47,13 @@ typedef struct s_client
     int clientfd;
 } t_client;
 
+typedef struct s_database
+{
+    int disabled;
+    int notDisabled;
+    char *notDisabled_RFID;
+} t_database;
+
 typedef struct s_data
 {
     pthread_t pid;
@@ -52,7 +61,7 @@ typedef struct s_data
     int clientfd;
     bool *wheelChair;
     bool *people;
-    bool *rfidData;
+    t_database *rfidData;
 } t_data;
 
 //socket
@@ -84,6 +93,6 @@ bool checkInAndOut(bool *wheelChair, bool *people, bool *rfidData);
 char	**ft_split(char const *s, char c);
 
 //database
-int getDatabaseInfo(char** id);
+t_database *getDatabaseInfo(char** id);
 
 #endif

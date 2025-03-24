@@ -1,5 +1,7 @@
 #include "../incs/main.h"
 
+int raspberryfd;
+
 void voice_command_handling(t_data *raspberryData, const char *command) {
     printf("voice command handling: %s\n", command);
     char response[BUFSIZE];
@@ -54,6 +56,8 @@ void *raspberryThread(void *arg)
     t_data *raspberryData = (t_data *)arg;
     char buf[BUFSIZE];
     int ret;
+
+    raspberryfd = raspberryData->clientfd;
     printf("RaspberryPi Thread started, clientfd: %d\n", raspberryData->clientfd);
   
     while (1)
@@ -73,4 +77,9 @@ void *raspberryThread(void *arg)
     
     printf("RaspberryPi Thread terminated.\n");
     return (NULL);
+}
+
+void speakerOn()
+{
+    
 }

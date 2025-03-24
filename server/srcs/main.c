@@ -12,7 +12,8 @@ int main(void)
     char bufRead[BUFSIZE];
     t_client clients[1024];
     int state = ARRIVED_DOWNSTAIRS;
-    bool wheelChair, people, rfidData;
+    bool wheelChair, people;
+    t_database rfidData;
     t_data **datas;
 
     serverfd = startSocket(&addr, &addr_len);
@@ -25,6 +26,7 @@ int main(void)
     {
         wfds = rfds = fds;
 
+        //should max increase when creating thread?
         if (max == 8) //originally 6, but additionally connecting to two jetsons -> so 8
         {
             // 스레드 끝내기
@@ -32,7 +34,6 @@ int main(void)
             //  메인스레드 시작
             mainThread(&state, &wheelChair, &people, &rfidData);
         }
-
 
         if (select(max + 1, &wfds, &rfds, NULL, NULL) < 0)
             continue;
@@ -77,7 +78,7 @@ int main(void)
                             datas[j]->rfidData = &rfidData;
                             pthread_create(&(datas[j]->pid), NULL, threadFunc[j], (void *)datas[j]);
                             FD_CLR(i, &fds);
-                            if (max == 5)
+                            if (max == 5) //when connecting all devices, change this number
                                 max++;
                             break;
                         }

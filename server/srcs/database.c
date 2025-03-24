@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <mysql/mysql.h>
+#include <../incs/main.h>
 
 #define  DB_HOST  "10.10.141.83"
 #define  DB_USER  "server"
@@ -67,19 +68,25 @@ int checkid_db(char* id)
    return disadvantaged;
 }
 
-int getDatabaseInfo(char** id)
+t_database *getDatabaseInfo(char** id)
 {
    int disadvantaged = 0;
    int i = 0, j = 0;
    int ret;
    char id_dst[20];
+   
+   t_database *database = (t_database *)malloc(sizeof(t_database));
+   if (database == NULL)
+      printf("malloc error\n");
+   
+   
    while (id[i])
    {
       int k = 0;
       //넘어온 값 파싱 
       for (j = 0; id[i][j] != '\0'; j++)
       {
-         printf("%c\n", id[i][j]);
+         // printf("%c\n", id[i][j]);
          if (id[i][j] != ' ')
          {
             id_dst[k++] = id[i][j];
