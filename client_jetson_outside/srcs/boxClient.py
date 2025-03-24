@@ -38,58 +38,75 @@ def startCapturing(clientSock):
                 print("Failed to capture frame.")
                 break
 
-            # 5초마다 감지 수행
-            if time.time() - start_time >= 5:
-                results = model(frame)
-                detections = results[0].boxes.data
+            # # 5초마다 감지 수행
+            # if time.time() - start_time >= 5:
+            #     results = model(frame)
+            #     detections = results[0].boxes.data
 
-                wheelchair_detected = False  # 휠체어 감지 여부 플래그
+            #     wheelchair_detected = False  # 휠체어 감지 여부 플래그
 
-                # if len(detections) > 0:
-                #     for det in detections:
-                #         x1, y1, x2, y2, conf, class_id = det.tolist()  # 좌표 & 클래스 ID 가져오기
-                #         class_id = int(class_id)
+            #     if len(detections) > 0:
+            #         for det in detections:
+            #             det = det.tolist()  # 리스트 변환
+            #             if len(det) < 6:  # 데이터 구조 확인
+            #                 print("Invalid detection format:", det)
+            #                 continue  
 
-                #         if class_id in CLASS_NAMES:  # 휠체어나 특정 객체일 경우
-                #             label = f"{CLASS_NAMES[class_id]} {conf:.2f}"
-                #             color = (0, 255, 0) if class_id == 2 else (255, 0, 0)  # 휠체어(초록), 다른 객체(파랑)
+            #             x1, y1, x2, y2, conf, class_id = det[:6]  # 필요한 6개 요소만 추출
+            #             class_id = int(class_id)
 
-                #             # 바운딩 박스 그리기
-                #             cv2.rectangle(frame, (int(x1), int(y1)), (int(x2), int(y2)), color, 2)
-                #             cv2.putText(frame, label, (int(x1), int(y1) - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            #             if class_id in CLASS_NAMES:  # 휠체어나 특정 객체일 경우
+            #                 label = f"{CLASS_NAMES[class_id]} {conf:.2f}"
+            #                 color = (0, 255, 0) if 0 <= class_id <= 5 else (255, 0, 0)  # 클래스에 따라 색상 변경
 
-                #             if 0 <= class_id <= 5:
-                #                 wheelchair_detected = True
+            #                 # 바운딩 박스 그리기 (정수 변환 필수!)
+            #                 x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])
+            #                 cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+            #                 cv2.putText(frame, label, (x1, max(y1 - 10, 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
-                if len(detections) > 0:
-                    for det in detections:
-                        det = det.tolist()  # 리스트 변환
-                        if len(det) < 6:  # 데이터 구조 확인
-                            print("Invalid detection format:", det)
-                            continue  
+            #                 # 감지 플래그 설정
+            #                 if 0 <= class_id <= 5:
+            #                     wheelchair_detected = True
 
-                        x1, y1, x2, y2, conf, class_id = det[:6]  # 필요한 6개 요소만 추출
-                        class_id = int(class_id)
+            #     message = "1".encode("utf-8") if wheelchair_detected else "0".encode("utf-8")
+            #     clientSock.send(message)
+            #     print(f"Sent: {message.decode()}")
 
-                        if class_id in CLASS_NAMES:  # 휠체어나 특정 객체일 경우
-                            label = f"{CLASS_NAMES[class_id]} {conf:.2f}"
-                            color = (0, 255, 0) if 0 <= class_id <= 5 else (255, 0, 0)  # 클래스에 따라 색상 변경
+            #     start_time = time.time()  # 타이머 리셋
 
-                            # 바운딩 박스 그리기 (정수 변환 필수!)
-                            x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])
-                            cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-                            cv2.putText(frame, label, (x1, max(y1 - 10, 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+            results = model(frame)
+            detections = results[0].boxes.data
 
-                            # 감지 플래그 설정
-                            if 0 <= class_id <= 5:
-                                wheelchair_detected = True
+            wheelchair_detected = False  # 휠체어 감지 여부 플래그
 
+            if len(detections) > 0:
+                for det in detections:
+                    det = det.tolist()  # 리스트 변환
+                    if len(det) < 6:  # 데이터 구조 확인
+                        print("Invalid detection format:", det)
+                        continue  
 
-                message = "1".encode("utf-8") if wheelchair_detected else "0".encode("utf-8")
-                clientSock.send(message)
-                print(f"Sent: {message.decode()}")
+                    x1, y1, x2, y2, conf, class_id = det[:6]  # 필요한 6개 요소만 추출
+                    class_id = int(class_id)
 
-                start_time = time.time()  # 타이머 리셋
+                    if class_id in CLASS_NAMES:  # 휠체어나 특정 객체일 경우
+                        label = f"{CLASS_NAMES[class_id]} {conf:.2f}"
+                        color = (0, 255, 0) if 0 <= class_id <= 5 else (255, 0, 0)  # 클래스에 따라 색상 변경
+
+                        # 바운딩 박스 그리기 (정수 변환 필수!)
+                        x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])
+                        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+                        cv2.putText(frame, label, (x1, max(y1 - 10, 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+
+                        # 감지 플래그 설정
+                        if 0 <= class_id <= 5:
+                            wheelchair_detected = True
+                if time.time() - start_time >= 5:
+                    message = "1".encode("utf-8") if wheelchair_detected else "0".encode("utf-8")
+                    clientSock.send(message)
+                    print(f"Sent: {message.decode()}")
+
+                    start_time = time.time()  # 타이머 리셋
 
             # 실시간 영상 확인 (옵션)
             cv2.imshow('Real-time Detection', frame)
