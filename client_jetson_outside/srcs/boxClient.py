@@ -94,13 +94,15 @@ def startCapturing(clientSock):
                         color = (0, 255, 0) if 0 <= class_id <= 5 else (255, 0, 0)  # 클래스에 따라 색상 변경
 
                         # 바운딩 박스 그리기 (정수 변환 필수!)
-                        x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])
-                        cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
-                        cv2.putText(frame, label, (x1, max(y1 - 10, 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
+                        if conf > 0.5:
+                            x1, y1, x2, y2 = map(int, [x1, y1, x2, y2])
+                            cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
+                            cv2.putText(frame, label, (x1, max(y1 - 10, 20)), cv2.FONT_HERSHEY_SIMPLEX, 0.5, color, 2)
 
                         # 감지 플래그 설정
                         if 0 <= class_id <= 5:
                             wheelchair_detected = True
+
                 if time.time() - start_time >= 5:
                     message = "1".encode("utf-8") if wheelchair_detected else "0".encode("utf-8")
                     clientSock.send(message)
