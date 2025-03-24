@@ -7,7 +7,8 @@ IP_ADDRESS = "10.10.141.42"
 SOCK_NUM = 5000
 
 # 클래스 ID와 라벨 매핑
-CLASS_NAMES = {2: "Wheelchair", 4: "Other"}
+# CLASS_NAMES = {2: "Wheelchair", 4: "Other"}
+CLASS_NAMES = {0: "Wheel", 1: "Wheel-chairs", 2: "handicap-people", 3: "people_wheelchair", 4: "wheel chair", 5: "wheelchair"}
 
 # 소켓 연결 함수
 def socketStart():
