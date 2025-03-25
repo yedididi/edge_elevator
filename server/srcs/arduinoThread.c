@@ -60,7 +60,7 @@ void    *arduinoThread(void *arg)
 
             case (ELEVATOR_START):
             {
-                freeRFIDS(split_ids);
+                // freeRFIDS(split_ids);
                 memset(rfids, 0, BUFSIZE);
             }
         }

@@ -15,6 +15,7 @@ void    *stmThread(void *arg)
             int ret = read(stmData->clientfd, buf, BUFSIZE);
             if (strncmp(buf, "ARRIVED_DOWNSTAIRS", ret) == 0)
             {
+                printf("got ARRIVED_DOWNSTAIRS\n");
                 *(stmData->state) = ARRIVED_DOWNSTAIRS;
                 sleep(1);
             }
