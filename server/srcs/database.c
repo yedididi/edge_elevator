@@ -79,6 +79,10 @@ t_database *getDatabaseInfo(char** id)
    t_database *database = (t_database *)malloc(sizeof(t_database));
    if (database == NULL)
       printf("malloc error\n");
+
+   database->disabled = 0;
+   database->notDisabled = 0;
+   memset(database->notDisabled_RFID, 0, BUFSIZE);
    
    while (id[i])
    {
@@ -97,9 +101,7 @@ t_database *getDatabaseInfo(char** id)
       //데이터를 읽고, 교통약자이면 disadvantaged++;
       ret = checkid_db(id_dst);
       if (ret == 1) // disadvantaged == 1
-      {
          (database->disabled)++;
-      }
       else if (ret == 0)
       {
          (database->notDisabled)++;
@@ -114,7 +116,6 @@ t_database *getDatabaseInfo(char** id)
          printf("reading database failed");
          return (NULL);
       }
-      // disadvantage가 0일 때는 처리 할 것 없음
       i++;
    }
    return (database);

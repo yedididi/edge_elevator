@@ -22,7 +22,6 @@ void    *arduinoThread(void *arg)
                     printf("changing state to BUTTON_PRESSED\n");
                     split_ids = ft_split(rfids, '*');
                     arduinoData->rfidData = getDatabaseInfo(split_ids);
-                    // printf("this is database info:%d\n", *(arduinoData->rfidData));
                     *(arduinoData->state) = BUTTON_PRESSED;
                 }
                 else

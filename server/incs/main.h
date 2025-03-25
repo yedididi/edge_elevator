@@ -51,7 +51,7 @@ typedef struct s_database
 {
     int disabled;
     int notDisabled;
-    char *notDisabled_RFID;
+    char notDisabled_RFID[BUFSIZE];
 } t_database;
 
 typedef struct s_data
