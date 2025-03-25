@@ -4,10 +4,11 @@
 #include <mysql/mysql.h>
 #include <../incs/main.h>
 
-#define  DB_HOST  "10.10.141.83"
+// #define  DB_HOST  "10.10.141.83"
+#define  DB_HOST  "localhost"
 #define  DB_USER  "server"
 #define  DB_PASS  "123456"
-#define  DB_NAME  "db_info_disadvantaged"
+#define  DB_NAME  "db_info_disadvantages"
 
 //make  -> gcc server.c -o server -I/usr/include/mysql -lmysqlclient
 

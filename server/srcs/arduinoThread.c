@@ -15,6 +15,7 @@ void    *arduinoThread(void *arg)
         {
             case (GET_RFID):
             {
+                memset(buf, 0, BUFSIZE);
                 int ret = read(arduinoData->clientfd, buf, BUFSIZE);
                 printf("arduino:%s, %d read\n", buf, ret);
                 if (strncmp(buf, "BUTTON_PRESSED", ret) == 0)

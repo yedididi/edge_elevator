@@ -1,18 +1,20 @@
 CC = cc
 NAME = server
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address -lmysqlclient
+# CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+# LDFLAGS = -fsanitize=address -I/usr/include/mysql -lmysqlclient
+CFLAGS = -Wall -Wextra -Werror -lmysqlclient
+
 INCS = incs
 SRCS = $(wildcard srcs/*.c)
 OBJS = $(SRCS:.c=.o)
 
-# 컴파일 규칙
 .c.o :
 	$(CC) -c $(CFLAGS) -o $@ $^ -I $(INCS)
 
 all : $(NAME)
 
 $(NAME) : $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(OBJS) -o $(NAME) $(CFLAGS) $(LDFLAGS)
 
 clean :
 	$(RM) $(OBJS)
