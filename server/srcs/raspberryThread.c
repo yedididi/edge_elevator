@@ -79,7 +79,7 @@ void *raspberryThread(void *arg)
     return (NULL);
 }
 
-void speakerOn()
+void speakerOn(char *str)
 {
-    
+    (void)str;
 }

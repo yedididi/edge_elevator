@@ -70,15 +70,15 @@ int checkid_db(char* id)
 
 t_database *getDatabaseInfo(char** id)
 {
-   int disadvantaged = 0;
+   // int disadvantaged = 0;
    int i = 0, j = 0;
    int ret;
    char id_dst[20];
+   bool flag = true;
    
    t_database *database = (t_database *)malloc(sizeof(t_database));
    if (database == NULL)
       printf("malloc error\n");
-   
    
    while (id[i])
    {
@@ -96,18 +96,27 @@ t_database *getDatabaseInfo(char** id)
       //해당 아이디 값에 맞는 데이터 를 읽는다
       //데이터를 읽고, 교통약자이면 disadvantaged++;
       ret = checkid_db(id_dst);
-      if (ret > 0) // disadvantaged == 1
+      if (ret == 1) // disadvantaged == 1
       {
-         disadvantaged++;
+         (database->disabled)++;
+      }
+      else if (ret == 0)
+      {
+         (database->notDisabled)++;
+         if (flag)
+         {
+            strncpy(database->notDisabled_RFID, id_dst, strlen(id_dst));
+            flag = false;
+         }
       }
       else if (ret < 0) // reading database failed
       {
          printf("reading database failed");
-         return -1;
+         return (NULL);
       }
       // disadvantage가 0일 때는 처리 할 것 없음
       i++;
    }
-   return disadvantaged;
+   return (database);
 }
 

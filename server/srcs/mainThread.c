@@ -24,7 +24,7 @@ void mainThread(int *state, bool *wheelchair, bool *people, t_database *rfidData
                     {
                         if (checkInAndOut(wheelchair, people, rfidData))
                         {
-                            sperkerOn("yield");
+                            speakerOn("yield");
                             *state = MOTOR_ON_FOR_YIELD;
                             
                             while (1)

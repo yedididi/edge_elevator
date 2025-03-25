@@ -75,6 +75,8 @@ void    *stmThread(void *arg);
 
 //arduinoThread
 void    *arduinoThread(void *arg);
+void freeRFIDS(char **split_ids);
+char **eraseRFID(char **split_ids, char *eraseID);
 
 //jetsonOneThread
 void    *jetsonOneThread(void *arg);
@@ -84,10 +86,11 @@ void    *jetsonTwoThread(void *arg);
 
 //raspberryThread
 void    *raspberryThread(void *arg);
+void speakerOn(char *str);
 
 //mainThread
-void mainThread(int *state, bool *wheelchair, bool *people, bool *rfidData);
-bool checkInAndOut(bool *wheelChair, bool *people, bool *rfidData);
+void mainThread(int *state, bool *wheelchair, bool *people, t_database *rfidData);
+bool checkInAndOut(bool *wheelChair, bool *people, t_database *rfidData);
 
 //utils
 char	**ft_split(char const *s, char c);
