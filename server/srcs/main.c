@@ -32,6 +32,7 @@ int main(void)
             // 스레드 끝내기
             // 할당해제
             //  메인스레드 시작
+            //main must erase;
             mainThread(&state, &wheelChair, &people, &rfidData);
         }
 
