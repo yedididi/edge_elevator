@@ -3,7 +3,7 @@ import cv2
 import time
 from ultralytics import YOLO
 
-IP_ADDRESS = "10.10.141.42"
+IP_ADDRESS = "10.10.141.72"
 SOCK_NUM = 5000
 
 # 클래스 ID와 라벨 매핑
