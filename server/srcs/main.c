@@ -27,11 +27,10 @@ int main(void)
         wfds = rfds = fds;
 
         //should max increase when creating thread?
-        if (max == 6) //originally 6, but additionally connecting to two jetsons -> so 8
+        if (max == 8) //originally 6, but additionally connecting to two jetsons -> so 8
         {
             // 스레드 끝내기
             // 할당해제
-            //  메인스레드 시작
             //main must erase;
             mainThread(&state, &wheelChair, &people, &rfidData);
         }

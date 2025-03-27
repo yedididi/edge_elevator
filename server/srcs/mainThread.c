@@ -11,7 +11,7 @@ void mainThread(int *state, bool *wheelchair, bool *people, t_database *rfidData
         {
             case (ARRIVED_DOWNSTAIRS):
             {
-                speakerOn(false, 0, "tts:elevator_end");
+                speakerOn(false, 0, "TTS:elevator_end");
                 sleep(5);
                 *state = GET_RFID;
                 break;
@@ -25,7 +25,7 @@ void mainThread(int *state, bool *wheelchair, bool *people, t_database *rfidData
                     {
                         if (checkInAndOut(wheelchair, people, rfidData))
                         {
-                            speakerOn(false, 0, "tts:wheelchair");
+                            speakerOn(false, 0, "TTS:wheelchair");
                             *state = MOTOR_ON_FOR_YIELD;
                             
                             while (1)
@@ -41,7 +41,7 @@ void mainThread(int *state, bool *wheelchair, bool *people, t_database *rfidData
                         else
                         {
                             *state = ELEVATOR_START;
-                            speakerOn(false, 0, "tts:elevator_start");
+                            speakerOn(false, 0, "TTS:elevator_start");
                             break;
                         }
                     }

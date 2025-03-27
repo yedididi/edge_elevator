@@ -25,9 +25,9 @@ void *raspberryThread(void *arg)
     t_data *raspberryData = (t_data *)arg;
     char buf[BUFSIZE];
     int ret;
-    int raspberryfd;
+    // int raspberryfd;
     
-    raspberryfd = raspberryData->clientfd;
+    // raspberryfd = raspberryData->clientfd;
     printf("RaspberryPi Thread started, clientfd: %d\n", raspberryData->clientfd);
   
     while (1)

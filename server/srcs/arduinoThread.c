@@ -35,7 +35,6 @@ void    *arduinoThread(void *arg)
                     split_ids = ft_split(rfids, '*');
                     arduinoData->rfidData = getDatabaseInfo(split_ids);
                     freeRFIDS(split_ids);
-                    printf("added rfids:%s\n", rfids);
                 }
                 break;
             }
