@@ -81,6 +81,8 @@ int main(void)
                             FD_CLR(i, &fds);
                             if (max == 5) //when connecting all devices, change this number
                                 max++;
+                            if (j == RASPBERRY)
+                                speakerOn(true, clients[i].clientfd, NULL);
                             break;
                         }
                     }

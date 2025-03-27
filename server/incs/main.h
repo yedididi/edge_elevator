@@ -34,8 +34,8 @@ enum e_state
 
 enum e_thread_order
 {
-    JETSON_INSIDE,
     JETSON_OUTSIDE,
+    JETSON_INSIDE,
     RASPBERRY,
     ARDUINO,
     STM,
@@ -86,7 +86,7 @@ void    *jetsonTwoThread(void *arg);
 
 //raspberryThread
 void    *raspberryThread(void *arg);
-void speakerOn(char *str);
+void    speakerOn(bool set, int clientFD, char *str);
 
 //mainThread
 void mainThread(int *state, bool *wheelchair, bool *people, t_database *rfidData);

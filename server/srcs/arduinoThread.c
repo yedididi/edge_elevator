@@ -21,8 +21,8 @@ void    *arduinoThread(void *arg)
                 if (strncmp(buf, "BUTTON_PRESSED", ret) == 0)
                 {
                     printf("changing state to BUTTON_PRESSED\n");
-                    split_ids = ft_split(rfids, '*');
-                    arduinoData->rfidData = getDatabaseInfo(split_ids);
+                    // split_ids = ft_split(rfids, '*');
+                    // arduinoData->rfidData = getDatabaseInfo(split_ids);
                     *(arduinoData->state) = BUTTON_PRESSED;
                 }
                 else
@@ -30,6 +30,11 @@ void    *arduinoThread(void *arg)
                     buf[12] = '\0';
                     strcat(rfids, buf);
                     strcat(rfids, "*");
+                    printf("added rfids:%s\n", rfids);
+                    
+                    split_ids = ft_split(rfids, '*');
+                    arduinoData->rfidData = getDatabaseInfo(split_ids);
+                    freeRFIDS(split_ids);
                     printf("added rfids:%s\n", rfids);
                 }
                 break;
