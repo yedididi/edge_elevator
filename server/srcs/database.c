@@ -4,13 +4,11 @@
 #include <mysql/mysql.h>
 #include <../incs/main.h>
 
-// #define  DB_HOST  "10.10.141.83"
 #define  DB_HOST  "localhost"
 #define  DB_USER  "server"
 #define  DB_PASS  "123456"
 #define  DB_NAME  "db_info_disadvantages"
 
-//make  -> gcc server.c -o server -I/usr/include/mysql -lmysqlclient
 
 int checkid_db(char* id)
 {
@@ -20,7 +18,7 @@ int checkid_db(char* id)
 
    char query[256];
    int disadvantaged = 0;
-   //connect DB
+
    conn = mysql_init(NULL); //conn init
    if (conn == NULL)
    {
@@ -71,7 +69,6 @@ int checkid_db(char* id)
 
 t_database *getDatabaseInfo(char** id)
 {
-   // int disadvantaged = 0;
    int i = 0, j = 0;
    int ret;
    char id_dst[20];
@@ -88,21 +85,19 @@ t_database *getDatabaseInfo(char** id)
    while (id[i])
    {
       int k = 0;
-      //넘어온 값 파싱 
       for (j = 0; id[i][j] != '\0'; j++)
       {
-         // printf("%c\n", id[i][j]);
          if (id[i][j] != ' ')
          {
             id_dst[k++] = id[i][j];
          }
       }
       id_dst[k] = '\0';
+
       printf("checking id %s\n", id_dst);
-      //해당 아이디 값에 맞는 데이터 를 읽는다
-      //데이터를 읽고, 교통약자이면 disadvantaged++;
       ret = checkid_db(id_dst);
       printf("ret is:%d\n", ret);
+
       if (ret == 1) // disadvantaged == 1
          (database->disabled)++;
       else if (ret == 0)
@@ -121,9 +116,6 @@ t_database *getDatabaseInfo(char** id)
       }
       i++;
    }
-   // printf("inside getDatabaseInfo func\n");
-   // printf("disabled %d\n", database->disabled);
-   // printf("not disabled %d\n\n", database->notDisabled);
    return (database);
 }
 

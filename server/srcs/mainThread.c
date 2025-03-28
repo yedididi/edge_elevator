@@ -26,17 +26,7 @@ void mainThread(int *state, bool *wheelchair, bool *people, int *disabled, int *
                         if (checkInAndOut(wheelchair, people, disabled, notDisabled))
                         {
                             speakerOn(false, 0, "TTS:wheelchair");
-                            // *state = MOTOR_ON_FOR_YIELD;
                             *state = GET_RFID;
-
-                            // while (1)
-                            // {
-                            //     if (*state == YIELD_MOTOR_DONE)
-                            //     {
-                            //         *state = GET_RFID;
-                            //         break;
-                            //     }
-                            // }
                             break;
                         }
                         else
@@ -56,13 +46,6 @@ void mainThread(int *state, bool *wheelchair, bool *people, int *disabled, int *
 bool checkInAndOut(bool *wheelChair, bool *people, int *disabled, int *notDisabled)
 {
     (void)people;
-    //returns false -> elevator start
-    //returns true  -> elevator stay
-
-    printf("\ninside checkInAndOut\n");
-    printf("Disabled %d\n", *disabled);
-    printf("not Disabled %d\n", *notDisabled);
-    printf("wheelchair %d\n\n", *wheelChair);
 
     if (*wheelChair && (*notDisabled) > 0)
         return (true);

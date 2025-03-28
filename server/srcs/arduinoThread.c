@@ -21,8 +21,6 @@ void    *arduinoThread(void *arg)
                 if (strncmp(buf, "BUTTON_PRESSED", ret) == 0)
                 {
                     printf("changing state to BUTTON_PRESSED\n");
-                    // split_ids = ft_split(rfids, '*');
-                    // arduinoData->rfidData = getDatabaseInfo(split_ids);
                     *(arduinoData->state) = BUTTON_PRESSED;
                 }
                 else
@@ -33,15 +31,9 @@ void    *arduinoThread(void *arg)
                     printf("added rfids:%s\n", rfids);
                     
                     split_ids = ft_split(rfids, '*');
-                    // arduinoData->rfidData = getDatabaseInfo(split_ids);
                     t_database *databaseInfo = getDatabaseInfo(split_ids);
-
                     *(arduinoData->disabled) = databaseInfo->disabled;
                     *(arduinoData->notDisabled) = databaseInfo->notDisabled;
-                    
-                    // printf("outside getDatabaseInfo func\n");
-                    // printf("disabled %d\n", *(arduinoData->disabled));
-                    // printf("not disabled %d\n\n", *(arduinoData->notDisabled));
                     freeRFIDS(split_ids);
                     free(databaseInfo);
                 }
@@ -73,7 +65,6 @@ void    *arduinoThread(void *arg)
 
             case (ELEVATOR_START):
             {
-                // freeRFIDS(split_ids);
                 memset(rfids, 0, BUFSIZE);
             }
         }

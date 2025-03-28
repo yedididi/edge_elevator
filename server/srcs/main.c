@@ -27,13 +27,11 @@ int main(void)
     {
         wfds = rfds = fds;
 
-        //should max increase when creating thread?
-        if (max == 8) //connect all -> 8
+        if (max == 8)
         {
+            mainThread(&state, &wheelChair, &people, &disabled, &notDisabled);
             // 스레드 끝내기
             // 할당해제
-            //main must erase;
-            mainThread(&state, &wheelChair, &people, &disabled, &notDisabled);
         }
 
         if (select(max + 1, &wfds, &rfds, NULL, NULL) < 0)
@@ -46,7 +44,6 @@ int main(void)
                 int clientSock = accept(serverfd, (struct sockaddr *)&addr, &addr_len);
                 if (clientSock < 0)
                     continue;
-                // printf("accepted, clientfd is %d\n", clientSock);
                 max = (clientSock > max) ? clientSock : max;
                 printf("max is:%d\n", max);
                 clients[clientSock].clientfd = clientSock;
@@ -69,7 +66,6 @@ int main(void)
                     {
                         if (strncmp(threadName[j], bufRead, res) == 0)
                         {
-                            // printf("%s recved\n", bufRead);
                             datas[j]->state = &state;
                             datas[j]->clientfd = clients[i].clientfd;
                             datas[j]->wheelChair = &wheelChair;
@@ -79,7 +75,7 @@ int main(void)
                             datas[j]->notDisabled = &notDisabled;
                             pthread_create(&(datas[j]->pid), NULL, threadFunc[j], (void *)datas[j]);
                             FD_CLR(i, &fds);
-                            if (max == 7) //when connecting all devices, is 6
+                            if (max == 7)
                                 max++;
                             if (j == RASPBERRY)
                                 speakerOn(true, clients[i].clientfd, NULL);
