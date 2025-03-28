@@ -34,6 +34,7 @@ void *raspberryThread(void *arg)
     {
         if (*(raspberryData->state) == GET_RFID)
         {    
+            // printf("inside rasp thread, state is %d\n", *(raspberryData->state));
             memset(buf, 0, BUFSIZE); 
             ret = read(raspberryData->clientfd, buf, BUFSIZE - 1);
             if (ret <= 0)

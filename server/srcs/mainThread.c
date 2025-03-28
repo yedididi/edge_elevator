@@ -12,7 +12,7 @@ void mainThread(int *state, bool *wheelchair, bool *people, t_database *rfidData
             case (ARRIVED_DOWNSTAIRS):
             {
                 speakerOn(false, 0, "TTS:elevator_end");
-                sleep(5);
+                sleep(1);
                 *state = GET_RFID;
                 break;
             }

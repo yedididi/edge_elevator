@@ -17,12 +17,12 @@ void    *jetsonOneThread(void *arg)
         if (strncmp(buf, "1", ret) == 0)
         {
             *(jetsonData->wheelChair) = 1;
-            printf("wheelchair detected\n");
+            //printf("wheelchair detected\n");
         }
         else
         {
             *(jetsonData->wheelChair) = 0;
-            printf("wheelChair not detected\n");
+            //printf("wheelChair not detected\n");
         }
     }
     return (NULL);

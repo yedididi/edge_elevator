@@ -11,7 +11,7 @@ int main(void)
     struct sockaddr_in addr;
     char bufRead[BUFSIZE];
     t_client clients[1024];
-    int state = ARRIVED_DOWNSTAIRS;
+    int state = GET_RFID;
     bool wheelChair, people;
     t_database rfidData;
     t_data **datas;
@@ -27,7 +27,7 @@ int main(void)
         wfds = rfds = fds;
 
         //should max increase when creating thread?
-        if (max == 8) //originally 6, but additionally connecting to two jetsons -> so 8
+        if (max == 8) //connect all -> 8
         {
             // 스레드 끝내기
             // 할당해제
@@ -45,7 +45,7 @@ int main(void)
                 int clientSock = accept(serverfd, (struct sockaddr *)&addr, &addr_len);
                 if (clientSock < 0)
                     continue;
-                printf("accepted, clientfd is %d\n", clientSock);
+                // printf("accepted, clientfd is %d\n", clientSock);
                 max = (clientSock > max) ? clientSock : max;
                 printf("max is:%d\n", max);
                 clients[clientSock].clientfd = clientSock;
@@ -55,9 +55,7 @@ int main(void)
 
             if (FD_ISSET(i, &wfds) && i != serverfd)
             {
-                printf("before read\n");
                 int res = read(i, bufRead, BUFSIZE);
-                printf("res is:%d\n", res);
                 if (res <= 0)
                 {
                     FD_CLR(i, &fds);
@@ -70,7 +68,7 @@ int main(void)
                     {
                         if (strncmp(threadName[j], bufRead, res) == 0)
                         {
-                            printf("%s recved\n", bufRead);
+                            // printf("%s recved\n", bufRead);
                             datas[j]->state = &state;
                             datas[j]->clientfd = clients[i].clientfd;
                             datas[j]->wheelChair = &wheelChair;
@@ -78,7 +76,7 @@ int main(void)
                             datas[j]->rfidData = &rfidData;
                             pthread_create(&(datas[j]->pid), NULL, threadFunc[j], (void *)datas[j]);
                             FD_CLR(i, &fds);
-                            if (max == 5) //when connecting all devices, change this number
+                            if (max == 7) //when connecting all devices, is 6
                                 max++;
                             if (j == RASPBERRY)
                                 speakerOn(true, clients[i].clientfd, NULL);
