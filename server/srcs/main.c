@@ -30,8 +30,7 @@ int main(void)
         if (max == 8)
         {
             mainThread(&state, &wheelChair, &people, &disabled, &notDisabled);
-            // 스레드 끝내기
-            // 할당해제
+            endThings(datas);
         }
 
         if (select(max + 1, &wfds, &rfds, NULL, NULL) < 0)

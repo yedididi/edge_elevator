@@ -71,6 +71,7 @@ int startSocket(struct sockaddr_in *addr_server, socklen_t *addr_len);
 
 //init
 t_data **init();
+void endThings(t_data **datas);
 
 //stmThread
 void    *stmThread(void *arg);

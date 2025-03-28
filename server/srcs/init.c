@@ -16,3 +16,9 @@ t_data **init()
     }
     return (datas);
 }
+
+void endThings(t_data **datas)
+{
+    // 스레드 끝내기
+    // 할당해제
+}
