@@ -26,16 +26,17 @@ void mainThread(int *state, bool *wheelchair, bool *people, int *disabled, int *
                         if (checkInAndOut(wheelchair, people, disabled, notDisabled))
                         {
                             speakerOn(false, 0, "TTS:wheelchair");
-                            *state = MOTOR_ON_FOR_YIELD;
-                            
-                            while (1)
-                            {
-                                if (*state == YIELD_MOTOR_DONE)
-                                {
-                                    *state = GET_RFID;
-                                    break;
-                                }
-                            }
+                            // *state = MOTOR_ON_FOR_YIELD;
+                            *state = GET_RFID;
+
+                            // while (1)
+                            // {
+                            //     if (*state == YIELD_MOTOR_DONE)
+                            //     {
+                            //         *state = GET_RFID;
+                            //         break;
+                            //     }
+                            // }
                             break;
                         }
                         else
