@@ -61,6 +61,8 @@ typedef struct s_data
     int clientfd;
     bool *wheelChair;
     bool *people;
+    int *disabled;
+    int *notDisabled;
     t_database *rfidData;
 } t_data;
 
@@ -89,8 +91,8 @@ void    *raspberryThread(void *arg);
 void    speakerOn(bool set, int clientFD, char *str);
 
 //mainThread
-void mainThread(int *state, bool *wheelchair, bool *people, t_database *rfidData);
-bool checkInAndOut(bool *wheelChair, bool *people, t_database *rfidData);
+void mainThread(int *state, bool *wheelchair, bool *people, int *disabled, int *notDisabled);
+bool checkInAndOut(bool *wheelChair, bool *people, int *disabled, int *notDisabled);
 
 //utils
 char	**ft_split(char const *s, char c);

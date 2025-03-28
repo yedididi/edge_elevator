@@ -13,6 +13,7 @@ int main(void)
     t_client clients[1024];
     int state = GET_RFID;
     bool wheelChair, people;
+    int disabled = 0, notDisabled = 0;
     t_database rfidData;
     t_data **datas;
 
@@ -32,7 +33,7 @@ int main(void)
             // 스레드 끝내기
             // 할당해제
             //main must erase;
-            mainThread(&state, &wheelChair, &people, &rfidData);
+            mainThread(&state, &wheelChair, &people, &disabled, &notDisabled);
         }
 
         if (select(max + 1, &wfds, &rfds, NULL, NULL) < 0)
@@ -74,6 +75,8 @@ int main(void)
                             datas[j]->wheelChair = &wheelChair;
                             datas[j]->people = &people;
                             datas[j]->rfidData = &rfidData;
+                            datas[j]->disabled = &disabled;
+                            datas[j]->notDisabled = &notDisabled;
                             pthread_create(&(datas[j]->pid), NULL, threadFunc[j], (void *)datas[j]);
                             FD_CLR(i, &fds);
                             if (max == 7) //when connecting all devices, is 6

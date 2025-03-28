@@ -98,9 +98,11 @@ t_database *getDatabaseInfo(char** id)
          }
       }
       id_dst[k] = '\0';
+      printf("checking id %s\n", id_dst);
       //해당 아이디 값에 맞는 데이터 를 읽는다
       //데이터를 읽고, 교통약자이면 disadvantaged++;
       ret = checkid_db(id_dst);
+      printf("ret is:%d\n", ret);
       if (ret == 1) // disadvantaged == 1
          (database->disabled)++;
       else if (ret == 0)
@@ -119,6 +121,9 @@ t_database *getDatabaseInfo(char** id)
       }
       i++;
    }
+   // printf("inside getDatabaseInfo func\n");
+   // printf("disabled %d\n", database->disabled);
+   // printf("not disabled %d\n\n", database->notDisabled);
    return (database);
 }
 

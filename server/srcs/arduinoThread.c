@@ -33,8 +33,17 @@ void    *arduinoThread(void *arg)
                     printf("added rfids:%s\n", rfids);
                     
                     split_ids = ft_split(rfids, '*');
-                    arduinoData->rfidData = getDatabaseInfo(split_ids);
+                    // arduinoData->rfidData = getDatabaseInfo(split_ids);
+                    t_database *databaseInfo = getDatabaseInfo(split_ids);
+
+                    *(arduinoData->disabled) = databaseInfo->disabled;
+                    *(arduinoData->notDisabled) = databaseInfo->notDisabled;
+                    
+                    // printf("outside getDatabaseInfo func\n");
+                    // printf("disabled %d\n", *(arduinoData->disabled));
+                    // printf("not disabled %d\n\n", *(arduinoData->notDisabled));
                     freeRFIDS(split_ids);
+                    free(databaseInfo);
                 }
                 break;
             }

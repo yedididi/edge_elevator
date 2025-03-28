@@ -11,8 +11,8 @@ void    *jetsonOneThread(void *arg)
     while (1)
     {
         int ret = read(jetsonData->clientfd, buf, BUFSIZE);
-        if (ret <= 0)
-            printf("read error\n");
+        // if (ret <= 0)
+        //     printf("read error\n");
 
         if (strncmp(buf, "1", ret) == 0)
         {

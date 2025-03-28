@@ -2,7 +2,7 @@
 
 //yeji branch, first goal code
 
-void mainThread(int *state, bool *wheelchair, bool *people, t_database *rfidData)
+void mainThread(int *state, bool *wheelchair, bool *people, int *disabled, int *notDisabled)
 {
     printf("main thread starting\n");
     while (1)
@@ -23,7 +23,7 @@ void mainThread(int *state, bool *wheelchair, bool *people, t_database *rfidData
                 {
                     if (*state == BUTTON_PRESSED)
                     {
-                        if (checkInAndOut(wheelchair, people, rfidData))
+                        if (checkInAndOut(wheelchair, people, disabled, notDisabled))
                         {
                             speakerOn(false, 0, "TTS:wheelchair");
                             *state = MOTOR_ON_FOR_YIELD;
@@ -52,13 +52,18 @@ void mainThread(int *state, bool *wheelchair, bool *people, t_database *rfidData
     }
 }
 
-bool checkInAndOut(bool *wheelChair, bool *people, t_database *rfidData)
+bool checkInAndOut(bool *wheelChair, bool *people, int *disabled, int *notDisabled)
 {
     (void)people;
     //returns false -> elevator start
     //returns true  -> elevator stay
 
-    if (*wheelChair && rfidData->notDisabled > 0)
+    printf("\ninside checkInAndOut\n");
+    printf("Disabled %d\n", *disabled);
+    printf("not Disabled %d\n", *notDisabled);
+    printf("wheelchair %d\n\n", *wheelChair);
+
+    if (*wheelChair && (*notDisabled) > 0)
         return (true);
     else
         return (false);
